@@ -37,6 +37,9 @@ class TrelloApp:
 
         self.complete_task_button = tk.Button(self.button_frame, text="✅ Complete Task", command=self.complete_task, bg="#FFC107", fg="white")  # Amber button
         self.complete_task_button.pack(side=tk.LEFT, padx=5)
+        
+        self.delete_task_button = tk.Button(self.button_frame, text="❌ Delete Task", command=self.delete_task, bg="#FF0000", fg="white")  # Red button
+        self.delete_task_button.pack(side=tk.LEFT, padx=5)
 
         self.modify_task_button = tk.Button(self.button_frame, text="🖊️ Modify Task", command=self.modify_task, bg="#FF9800", fg="white")  # Orange button
         self.modify_task_button.pack(side=tk.LEFT, padx=5)
@@ -74,6 +77,13 @@ class TrelloApp:
             task = self.tasks_in_progress[selected_task_index[0]]
             task.complete()
             self.completed_tasks.append(task)
+            self.tasks_in_progress.remove(task)
+            self.update_task_listboxes()
+
+    def delete_task(self):
+        selected_task_index = self.in_progress_listbox.curselection()
+        if selected_task_index:
+            task = self.tasks_in_progress[selected_task_index[0]]
             self.tasks_in_progress.remove(task)
             self.update_task_listboxes()
 
