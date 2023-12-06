@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import simpledialog, messagebox
+from tkinter import LEFT, simpledialog, messagebox
 
 from task import Task
 
@@ -36,22 +36,38 @@ class TrelloApp:
     def add_task(self):
         add_task_window = tk.Toplevel(self.master)
         add_task_window.title("Ajouter une nouvelle tache")
+        add_task_window.geometry("600x400")
+        self.center_window(add_task_window)
+
+        add_task_window_content = tk.Frame(add_task_window)
 
         #UI
-        tk.Label(master=add_task_window, text="Nom").pack(pady=5)
-        name = tk.Entry(master=add_task_window, width=24)
-        name.pack(pady=5)
-        tk.Label(master=add_task_window, text="Description").pack(pady=5)
-        description = tk.Text(master=add_task_window, width=24)
-        description.pack(pady=5)
-        tk.Button(master=add_task_window, text="Annuler", height=1, foreground="#090D11", borderwidth=1, padx=4, pady=4, command=lambda: (add_task_window.destroy())).pack()
-        tk.Button( master=add_task_window, text="Ajouter la tache", height=1, background='#D87D40', foreground="#FFFFFF", borderwidth=1, padx=4, pady=4, command=lambda: (self.on_add_task(Task(name=name.get(), description=description.get("1.0", tk.END))), add_task_window.destroy())).pack()
+        tk.Label(master=add_task_window_content, text="Nom").pack( anchor="w")
+        name = tk.Entry(master=add_task_window_content, width=32)
+        name.pack(pady=2, anchor="w")
+        tk.Label(master=add_task_window_content, text="Description").pack(anchor="w")
+        description = tk.Text(master=add_task_window_content, width=24, height=12)
+        description.pack(pady=2)
+        tk.Button(master=add_task_window_content, text="Annuler", height=1, foreground="#090D11", borderwidth=1, padx=4, pady=4, command=lambda: (add_task_window.destroy())).pack(pady=4, side=LEFT)
+        tk.Button( master=add_task_window_content, text="Ajouter la tache", height=1, background='#D87D40', foreground="#FFFFFF", borderwidth=1, padx=4, pady=4, command=lambda: (self.on_add_task(Task(name=name.get(), description=description.get("1.0", tk.END))), add_task_window.destroy())).pack(pady=4)
 
-        
+        add_task_window_content.pack()
         """
         task_name = simpledialog.askstring("Input", "Enter task name:")
         task_description = simpledialog.askstring("Input", "Enter task description:")
         """
+
+    def center_window(self, window):
+        # Obtenir la résolution de l'écran
+        screen_width = window.winfo_screenwidth()
+        screen_height = window.winfo_screenheight()
+
+        # Calculer les coordonnées x et y pour centrer la fenêtre
+        x = (screen_width - window.winfo_reqwidth()) // 2
+        y = (screen_height - window.winfo_reqheight()) // 2
+
+        # Définir la position de la fenêtre
+        window.geometry("+{}+{}".format(x, y))
 
     def complete_task(self):
         selected_task_index = self.in_progress_listbox.curselection()
