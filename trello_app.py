@@ -44,10 +44,6 @@ class TrelloApp:
         self.show_description_button = tk.Button(self.button_frame, text="ℹ️ Show Description", command=self.show_description, bg="#1976D2", fg="white")  # Blue button
         self.show_description_button.pack(side=tk.LEFT, padx=5)
 
-    def on_add_task(self, task):
-            self.tasks_in_progress.append(task)
-            self.update_task_listboxes()
-
     def add_task(self):
         task_dialog = TaskDialog(self.master, title="Add Task")
         if task_dialog.result:
